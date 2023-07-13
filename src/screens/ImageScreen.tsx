@@ -23,14 +23,19 @@ const pickerColor = '#000000';
 const ImageScreen = ({navigation}: ImageScreenProps) => {
   const ref = useRef<ViewShot>(null);
   const [lineWidth, setLineWidth] = useState(5);
+  const [bg, setBG] = useState('transparent');
   const route = useRoute();
   const {source} = route.params as {source: {uri: string}};
 
   const onCapture = useCallback(() => {
-    ref.current
-      ?.capture()
-      .then(uri => navigation.navigate('Preview', {source: {uri}}));
-  }, [navigation]);
+    setBG('#fff');
+    ref.current?.capture().then(uri =>
+      navigation.navigate('Preview', {
+        source,
+        uri,
+      }),
+    );
+  }, [navigation, source]);
 
   return (
     <View style={styles.container}>
@@ -38,7 +43,7 @@ const ImageScreen = ({navigation}: ImageScreenProps) => {
         <View style={styles.shotView} />
         <Image style={styles.imageStyle} source={source} />
 
-        <View style={styles.canvasContainer}>
+        <View style={[styles.canvasContainer, {backgroundColor: bg}]}>
           <ImageCanvas lineWidth={lineWidth} />
         </View>
       </ViewShot>
