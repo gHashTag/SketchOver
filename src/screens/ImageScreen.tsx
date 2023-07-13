@@ -2,20 +2,12 @@ import React, {useCallback, useRef, useState} from 'react';
 import {Button, Image, View, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {ImageCanvas} from '../components/ImageCanvas';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import {RootStackParamList} from '../App';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 
-type ProfileScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Image'
->;
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Image'>;
-
 type ImageScreenProps = {
-  navigation: ProfileScreenNavigationProp;
-  route: ProfileScreenRouteProp;
+  navigation: any;
+  route: any;
 };
 
 const pickerColor = '#000000';
@@ -29,13 +21,22 @@ const ImageScreen = ({navigation}: ImageScreenProps) => {
 
   const onCapture = useCallback(() => {
     setBG('#fff');
-    ref.current?.capture().then(uri =>
+    ref.current?.capture().then(capturedUri => {
       navigation.navigate('Preview', {
         source,
-        uri,
-      }),
-    );
+        uri: capturedUri,
+      });
+    });
   }, [navigation, source]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setBG('transparent');
+      return () => {
+        setBG('#fff');
+      };
+    }, []),
+  );
 
   return (
     <View style={styles.container}>
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: 200,
     height: 40,
-    backgroundColor: 'pink',
+    backgroundColor: 'white',
     borderRadius: 15,
   },
 });

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: 200,
     height: 40,
-    backgroundColor: 'pink',
+    backgroundColor: 'white',
     borderRadius: 15,
   },
   bottomContainer: {
