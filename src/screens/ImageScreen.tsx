@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: 200,
     height: 40,
-    backgroundColor: '#000',
+    backgroundColor: 'pink',
     borderRadius: 15,
   },
 });
